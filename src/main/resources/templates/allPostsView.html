@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Travels Abroad</title>
-	</head>
-	<body>
-		allPostsView.html
-	</body>
+  <head>
+    <div th:insert="fragments/head.html :: head"></div>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/specific/allPostsView.css"
+    />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header th:replace="fragments/header.html :: header"></header>
+
+      <main class="main">
+        <section>
+          <h1>Posts</h1>
+          <ul>
+            <li th:each="post: ${allPostsModel}">
+              <a th:href="|/posts/${post.id}|">
+                <h2 th:text="${post.title}">Title</h2>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer th:replace="fragments/footer.html :: footer"></footer>
+    </div>
+  </body>
 </html>
