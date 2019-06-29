@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<div th:insert="fragments/head.html :: head"></div>
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="/css/specific/allPostsView.css"
-		/>
-	</head>
+  <head>
+    <div th:insert="fragments/head.html :: head"></div>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/specific/allPostsView.css"
+    />
+  </head>
 
-	<body>
-		<div class="wrapper">
-			<header th:replace="fragments/header.html :: header"></header>
+  <body>
+    <div class="wrapper">
+      <header th:replace="fragments/header.html :: header"></header>
 
-			<main class="main">
-				<section>
-					<h1>allPostsView.html</h1>
-					<h2>
-						(To be completed).
-					</h2>
-				</section>
-			</main>
+      <main class="main">
+        <section>
+          <h1>Posts</h1>
+          <ul>
+            <li th:each="post: ${allPostsModel}">
+              <a th:href="|/posts/${post.id}|">
+                <h2 th:text="${post.title}">Title</h2>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </main>
 
-			<footer th:replace="fragments/footer.html :: footer"></footer>
-		</div>
-	</body>
+      <footer th:replace="fragments/footer.html :: footer"></footer>
+    </div>
+  </body>
 </html>
