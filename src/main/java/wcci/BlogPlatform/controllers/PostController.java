@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import wcci.BlogPlatform.repos.PostCrudRepo;
@@ -16,9 +18,29 @@ public class PostController {
 	PostCrudRepo postRepo;
 
 	@RequestMapping("")
-	public String displayPosts(Model model)
+	public String renderAllPosts(Model model)
 		{
-		model.addAttribute("postsModel", postRepo.findAll());
+		model.addAttribute("allPostsModel", postRepo.findAll());
 		return "allPostsView";
+		}
+
+	@RequestMapping("{id}")
+	public String renderSinglePost(@PathVariable("id") Long id, Model model)
+		{
+		// model.addAttribute("singlePostModel", reviewRepo.findById(id).get());
+		return "singlePostView";
+		}
+
+	@RequestMapping("new")
+	public String renderNewPost(Model model)
+		{
+		return "newPostView";
+		}
+
+	@RequestMapping("add")
+	// @PostMapping("add")
+	public String addPost()
+		{
+		return "redirect:/posts";
 		}
 }

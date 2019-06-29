@@ -1,0 +1,13 @@
+.main {
+	color: var(--dark);
+}
+
+.main section h1 {
+	font-size: 5rem;
+	padding: 5rem 2rem;
+}
+
+.main section h2 {
+	font-size: 3rem;
+	padding: 2rem;
+}
