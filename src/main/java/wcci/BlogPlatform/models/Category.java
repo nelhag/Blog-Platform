@@ -1,39 +1,29 @@
 package wcci.BlogPlatform.models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Author {
+public class Category {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String name;
 
-	@ManyToMany
+	@OneToMany(mappedBy = "category")
 	private Collection<Post> posts = new ArrayList<Post>();
 
-	protected Author()
+	public Category()
 		{
 		}
 
-	public void addPost(Post post)
-		{
-		if (!posts.contains(post))
-			{
-			posts.add(post);
-			}
-		}
-
-	public Author(String name)
+	public Category(String name)
 		{
 		this.name = name;
 		}
@@ -72,7 +62,7 @@ public class Author {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Author other = (Author) obj;
+		Category other = (Category) obj;
 		if (id == null)
 			{
 			if (other.id != null)
@@ -89,4 +79,5 @@ public class Author {
 			return false;
 		return true;
 		}
+
 }
