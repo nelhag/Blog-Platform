@@ -1,5 +1,6 @@
 package wcci.BlogPlatform;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import java.util.Arrays;
 
 @Entity
 public class Post {
@@ -32,14 +35,26 @@ public class Post {
 
 	}
 
-	public Post(String title, String body, Author authors, Date publishDate, String category, String tags) {
+//	public Post(String title, String body, Date publishDate, String category, String tags,List<Author> authors) {
+//		this.title = title;
+//		this.body = body;
+//		this.publishDate = publishDate;
+//		this.category = category;
+//		this.tags=tags;
+//		this.authors=authors;
+////		for(Author author :authors) {
+////			this.authors.add(author);
+////		}
+
+	//}
+
+	public Post(String title, String body, Date publishDate, String category, String tags, Author... authors) {
 		this.title = title;
 		this.body = body;
-		this.authors=authors;
 		this.publishDate = publishDate;
 		this.category = category;
 		this.tags=tags;
-
+		this.authors=Arrays.asList(authors);
 	}
 
 	public String getTitle() {
