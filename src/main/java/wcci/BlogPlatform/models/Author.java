@@ -1,14 +1,15 @@
 package wcci.BlogPlatform.models;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -23,7 +24,8 @@ public class Author {
 	private String name;
 
 	@ManyToMany
-	private Collection<Post> posts = new ArrayList<Post>();
+	@JoinTable(name = "author_posts", joinColumns = { @JoinColumn(name = "author_id") }, inverseJoinColumns = { @JoinColumn(name = "post_id") })
+	private Set<Post> posts = new HashSet<Post>();
 
 	protected Author()
 		{
@@ -31,10 +33,8 @@ public class Author {
 
 	public void addPost(Post post)
 		{
-		if (!posts.contains(post))
-			{
-			posts.add(post);
-			}
+		getPosts().add(post);
+		post.getAuthors().add(this);
 		}
 
 	public Author(String name)
@@ -52,7 +52,7 @@ public class Author {
 		return name;
 		}
 
-	public Collection<Post> getPosts()
+	public Set<Post> getPosts()
 		{
 		return posts;
 		}

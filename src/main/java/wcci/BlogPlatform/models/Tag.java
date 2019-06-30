@@ -23,8 +23,7 @@ public class Tag {
 	@Column(name = "tag_name", unique = true, nullable = false)
 	private String name;
 
-	@ManyToMany
-	@JoinTable(name = "JOIN_POST_TAG", joinColumns = { @JoinColumn(name = "tag_id") }, inverseJoinColumns = { @JoinColumn(name = "post_id") })
+	@ManyToMany(mappedBy = "tags")
 	private Collection<Post> posts = new ArrayList<Post>();
 
 	protected Tag()
