@@ -4,38 +4,55 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Post {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "post_id")
 	private Long id;
 
 	private String title;
-	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "publish_date")
 	Date publishDate = new Date();
 
 	@Lob
 	private String body;
-	
-	@ManyToOne
+
+	@ManyToOne(cascade = { CascadeType.PERSIST })
 	Category category;
-	
+
 	@ManyToMany(mappedBy = "posts")
 	private Collection<Author> authors = new ArrayList<Author>();
-	
+
+	//@ManyToMany(cascade = { CascadeType.PERSIST })
+	//@ManyToMany(cascade = { CascadeType.ALL })
 	@ManyToMany
+	@JoinTable(name = "JOIN_POST_TAG", joinColumns = { @JoinColumn(name = "post_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
 	private Collection<Tag> tags = new ArrayList<Tag>();
 
 	protected Post()
 		{
+		}
+
+	public void addTag(Tag tag)
+		{
+		tags.add(tag);
 		}
 
 	public Post(String title, String body, Category category)

@@ -3,6 +3,8 @@ package wcci.BlogPlatform.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,10 +15,13 @@ public class Category {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "category_id")
 	private Long id;
+	
+	@Column(name = "category_name")
 	private String name;
 
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", cascade = {CascadeType.ALL})
 	private Collection<Post> posts = new ArrayList<Post>();
 
 	public Category()

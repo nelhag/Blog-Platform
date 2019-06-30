@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,7 +16,9 @@ public class Author {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "author_id")
 	private Long id;
+	@Column(name = "author_name")
 	private String name;
 
 	@ManyToMany
