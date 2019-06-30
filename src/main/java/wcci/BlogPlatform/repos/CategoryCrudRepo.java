@@ -6,4 +6,6 @@ import wcci.BlogPlatform.models.Category;
 
 public interface CategoryCrudRepo extends CrudRepository<Category, Long> {
 
+	public Category findByName(String name);
+
 }
