@@ -1,10 +1,10 @@
 package wcci.BlogPlatform.models;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,26 +34,16 @@ public class Post {
 	@Lob
 	private String body;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST })
+	@ManyToOne
+	@JoinColumn(name = "category_id")
 	Category category;
 
 	@ManyToMany(mappedBy = "posts")
-	private Collection<Author> authors = new ArrayList<Author>();
+	private Set<Author> authors = new HashSet<Author>();
 
-	//@ManyToMany(cascade = { CascadeType.PERSIST })
-	//@ManyToMany(cascade = { CascadeType.ALL })
 	@ManyToMany
-	@JoinTable(name = "JOIN_POST_TAG", joinColumns = { @JoinColumn(name = "post_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
-	private Collection<Tag> tags = new ArrayList<Tag>();
-
-	protected Post()
-		{
-		}
-
-	public void addTag(Tag tag)
-		{
-		tags.add(tag);
-		}
+	@JoinTable(name = "post_tags", joinColumns = { @JoinColumn(name = "post_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+	private Set<Tag> tags = new HashSet<Tag>();
 
 	public Post(String title, String body, Category category)
 		{
@@ -61,6 +51,16 @@ public class Post {
 		this.title = title;
 		this.body = body;
 		this.category = category;
+		}
+
+	public void addTag(Tag tag)
+		{
+		getTags().add(tag);
+		tag.getPosts().add(this);
+		}
+
+	protected Post()
+		{
 		}
 
 	public Long getId()
@@ -88,12 +88,12 @@ public class Post {
 		return category;
 		}
 
-	public Collection<Author> getAuthors()
+	public Set<Author> getAuthors()
 		{
 		return authors;
 		}
 
-	public Collection<Tag> getTags()
+	public Set<Tag> getTags()
 		{
 		return tags;
 		}

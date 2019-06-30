@@ -6,4 +6,6 @@ import wcci.BlogPlatform.models.Post;
 
 public interface PostCrudRepo extends CrudRepository<Post, Long> {
 
+	public Post findByTitle(String title);
+
 }

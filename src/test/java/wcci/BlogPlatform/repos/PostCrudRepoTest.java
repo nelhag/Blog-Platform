@@ -1,20 +1,28 @@
-package wcci.BlogPlatform;
+package wcci.BlogPlatform.repos;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import wcci.BlogPlatform.models.Author;
 import wcci.BlogPlatform.models.Category;
 import wcci.BlogPlatform.models.Post;
 import wcci.BlogPlatform.models.Tag;
-import wcci.BlogPlatform.repos.AuthorCrudRepo;
-import wcci.BlogPlatform.repos.CategoryCrudRepo;
-import wcci.BlogPlatform.repos.PostCrudRepo;
-import wcci.BlogPlatform.repos.TagCrudRepo;
 
-@Component
-public class Initializer implements CommandLineRunner {
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class PostCrudRepoTest {
+
+	@Autowired
+	private TestEntityManager entityManager;
 
 	@Autowired
 	private CategoryCrudRepo categoryRepo;
@@ -28,6 +36,7 @@ public class Initializer implements CommandLineRunner {
 	@Autowired
 	private TagCrudRepo tagRepo;
 
+	// Arrange
 	// Categories
 	private String testCatName01 = "cat01";
 	private Category testCat01 = new Category(testCatName01);
@@ -50,10 +59,12 @@ public class Initializer implements CommandLineRunner {
 	private String testPostTitle01 = "title01";
 	private String testPostBody01 = "body01";
 	private Post testPost01 = new Post(testPostTitle01, testPostBody01, testCat01);
+
 	private String testPostTitle02 = "title02";
 	private String testPostBody02 = "body02";
 	private Post testPost02 = new Post(testPostTitle02, testPostBody02, testCat02);
 
+	@Before
 	public void persistTestEntities()
 		{
 		categoryRepo.save(testCat01);
@@ -64,37 +75,17 @@ public class Initializer implements CommandLineRunner {
 		tagRepo.save(testTag02);
 		postRepo.save(testPost01);
 		postRepo.save(testPost02);
+		entityManager.flush();
+		entityManager.clear();
 		}
 
-	@Override
-	public void run(String... args) throws Exception
+	@Test
+	public void shouldLoadAPost()
 		{
-		System.out.println("RUNNING INITIALIZER");
-		// populateWithEntities();
-		persistTestEntities();
+		// Action
+		Post postToLoad = postRepo.findById(testPost01.getId()).get();
 
-		testAuthor01.addPost(testPost01);
-		authorRepo.save(testAuthor01);
-
-		testAuthor02.addPost(testPost01);
-		testAuthor02.addPost(testPost02);
-		authorRepo.save(testAuthor02);
-
-		testPost01.addTag(testTag01);
-		testPost01.addTag(testTag02);
-		postRepo.save(testPost01);
-
-		testPost02.addTag(testTag01);
-		testPost02.addTag(testTag01);
-		postRepo.save(testPost02);
-		}
-
-	private void populateWithEntities()
-		{
-		AutoPopulator populator = new AutoPopulator();
-		populator.populateRepoWithRandomCategories(categoryRepo, 5);
-		populator.populateRepoWithRandomAuthors(authorRepo, 5);
-		populator.populateRepoWithRandomTags(tagRepo, 5);
-		populator.populateRepoWithRandomPosts(categoryRepo, postRepo, 10);
+		// Assert
+		assertThat(testPost01, is(postToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
 		}
 }

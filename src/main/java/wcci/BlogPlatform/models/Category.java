@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.NaturalId;
+
 @Entity
 public class Category {
 
@@ -17,11 +19,11 @@ public class Category {
 	@GeneratedValue
 	@Column(name = "category_id")
 	private Long id;
-	
-	@Column(name = "category_name")
+
+	@Column(name = "category_name", unique = true, nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "category", cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy = "category")
 	private Collection<Post> posts = new ArrayList<Post>();
 
 	public Category()
@@ -84,5 +86,4 @@ public class Category {
 			return false;
 		return true;
 		}
-
 }
