@@ -15,10 +15,14 @@
 
 			<main class="main">
 				<section>
-					<h1>allAuthorsView.html</h1>
-					<h2>
-						(To be completed).
-					</h2>
+					<h1>Authors</h1>
+					<ul>
+						<li th:each="author: ${allAuthorsModel}">
+							<a th:href="|/authors/${author.id}|">
+								<h2 th:text="${author.name}">Name</h2>
+							</a>
+						</li>
+					</ul>
 				</section>
 			</main>
 

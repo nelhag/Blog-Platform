@@ -15,10 +15,14 @@
 
 			<main class="main">
 				<section>
-					<h1>allCategoriesView.html</h1>
-					<h2>
-						(To be completed).
-					</h2>
+					<h1>Categories</h1>
+					<ul>
+						<li th:each="category: ${allCategoriesModel}">
+							<a th:href="|/categories/${category.id}|">
+								<h2 th:text="${category.name}">Name</h2>
+							</a>
+						</li>
+					</ul>
 				</section>
 			</main>
 
