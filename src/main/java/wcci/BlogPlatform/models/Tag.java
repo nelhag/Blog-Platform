@@ -19,11 +19,10 @@ public class Tag {
 	@GeneratedValue
 	@Column(name = "tag_id")
 	private Long id;
-	@Column(name = "tag_name")
+
+	@Column(name = "tag_name", unique = true, nullable = false)
 	private String name;
 
-	// @ManyToMany(mappedBy = "tags")
-	//@ManyToMany(cascade = {CascadeType.PERSIST})
 	@ManyToMany
 	@JoinTable(name = "JOIN_POST_TAG", joinColumns = { @JoinColumn(name = "tag_id") }, inverseJoinColumns = { @JoinColumn(name = "post_id") })
 	private Collection<Post> posts = new ArrayList<Post>();

@@ -34,14 +34,14 @@ public class Post {
 	@Lob
 	private String body;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST })
+	@ManyToOne
 	Category category;
 
 	@ManyToMany(mappedBy = "posts")
 	private Collection<Author> authors = new ArrayList<Author>();
 
-	//@ManyToMany(cascade = { CascadeType.PERSIST })
-	//@ManyToMany(cascade = { CascadeType.ALL })
+	// @ManyToMany(cascade = { CascadeType.PERSIST })
+	// @ManyToMany(cascade = { CascadeType.ALL })
 	@ManyToMany
 	@JoinTable(name = "JOIN_POST_TAG", joinColumns = { @JoinColumn(name = "post_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
 	private Collection<Tag> tags = new ArrayList<Tag>();

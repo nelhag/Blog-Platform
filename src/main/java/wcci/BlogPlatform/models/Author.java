@@ -18,7 +18,8 @@ public class Author {
 	@GeneratedValue
 	@Column(name = "author_id")
 	private Long id;
-	@Column(name = "author_name")
+
+	@Column(name = "author_name", unique = true, nullable = false)
 	private String name;
 
 	@ManyToMany

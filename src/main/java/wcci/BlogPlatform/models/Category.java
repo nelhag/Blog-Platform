@@ -23,7 +23,7 @@ public class Category {
 	@Column(name = "category_name", unique = true, nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "category", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "category")
 	private Collection<Post> posts = new ArrayList<Post>();
 
 	public Category()

@@ -14,74 +14,74 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import wcci.BlogPlatform.models.Category;
+import wcci.BlogPlatform.models.Author;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CategoryCrudRepoTest {
+public class AuthorCrudRepoTest {
 
 	@Autowired
 	private TestEntityManager entityManager;
 
 	@Autowired
-	private CategoryCrudRepo categoryRepo;
+	private AuthorCrudRepo authorRepo;
 
 	// Arrange
-	private String testCatName01 = "cat1";
-	private Category testCat01 = new Category(testCatName01);
+	private String testAuthorName01 = "author1";
+	private Author testAuthor01 = new Author(testAuthorName01);
 
 	@Before
 	public void persistTestEntities()
 		{
-		categoryRepo.save(testCat01);
+		authorRepo.save(testAuthor01);
 
 		entityManager.flush();
 		entityManager.clear();
 		}
 
 	@Test
-	public void shouldLoadASavedCategory()
+	public void shouldLoadASavedAuthor()
 		{
 		// Action
-		Long assignedId = testCat01.getId();
-		Category categoryToLoad = categoryRepo.findById(assignedId).get();
+		Long assignedId = testAuthor01.getId();
+		Author authorToLoad = authorRepo.findById(assignedId).get();
 
 		// Assert
-		assertThat(testCat01, is(categoryToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
+		assertThat(testAuthor01, is(authorToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
 		}
 
 	@Test
-	public void shouldLoadCategoryByName()
+	public void shouldLoadAuthorByName()
 		{
 		// Action
-		Category categoryToLoad = categoryRepo.findByName(testCatName01);
+		Author authorToLoad = authorRepo.findByName(testAuthorName01);
 
 		// Assert
-		assertThat(testCat01, is(categoryToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
+		assertThat(testAuthor01, is(authorToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
 		}
 
 	@Test
-	public void shouldFailToLoadCategoryByWrongName()
+	public void shouldFailToLoadAuthorByWrongName()
 		{
 		// Action
-		Category categoryToLoad = categoryRepo.findByName("wrong name");
+		Author authorToLoad = authorRepo.findByName("wrong name");
 
 		// Assert
-		assertThat(categoryToLoad, is(nullValue()));
+		assertThat(authorToLoad, is(nullValue()));
 		}
 
 	@Test
-	public void shouldFailToSaveCategoryWithSameNameAsExistingCategory()
+	public void shouldFailToSaveAuthorWithSameNameAsExistingAuthor()
 		{
 		// Arrange
-		String duplicateTestCatName01 = new String(testCatName01);
-		Category duplicateTestCat01 = new Category(duplicateTestCatName01);
+		String duplicateTestAuthorName01 = new String(testAuthorName01);
+		Author duplicateTestAuthor01 = new Author(duplicateTestAuthorName01);
 
 		// Action
-		long numberOfCatsBeforeSave = categoryRepo.count();
+		long numberOfAuthorsBeforeSave = authorRepo.count();
 		try
 			{
-			categoryRepo.save(duplicateTestCat01);
+			authorRepo.save(duplicateTestAuthor01);
 			entityManager.flush();
 			entityManager.clear();
 			}
@@ -107,9 +107,9 @@ public class CategoryCrudRepoTest {
 				System.out.println("-------------EXCEPTION MESSAGE------: " + ex.getMessage());
 				}
 			}
-		long numberOfCatsAfterSave = categoryRepo.count();
+		long numberOfAuthorsAfterSave = authorRepo.count();
 
 		// Assert
-		assertEquals(numberOfCatsBeforeSave, numberOfCatsAfterSave);
+		assertEquals(numberOfAuthorsBeforeSave, numberOfAuthorsAfterSave);
 		}
 }

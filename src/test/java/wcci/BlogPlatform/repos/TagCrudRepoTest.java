@@ -14,74 +14,74 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import wcci.BlogPlatform.models.Category;
+import wcci.BlogPlatform.models.Tag;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CategoryCrudRepoTest {
+public class TagCrudRepoTest {
 
 	@Autowired
 	private TestEntityManager entityManager;
 
 	@Autowired
-	private CategoryCrudRepo categoryRepo;
+	private TagCrudRepo tagRepo;
 
 	// Arrange
-	private String testCatName01 = "cat1";
-	private Category testCat01 = new Category(testCatName01);
+	private String testTagName01 = "tag1";
+	private Tag testTag01 = new Tag(testTagName01);
 
 	@Before
 	public void persistTestEntities()
 		{
-		categoryRepo.save(testCat01);
+		tagRepo.save(testTag01);
 
 		entityManager.flush();
 		entityManager.clear();
 		}
 
 	@Test
-	public void shouldLoadASavedCategory()
+	public void shouldLoadASavedTag()
 		{
 		// Action
-		Long assignedId = testCat01.getId();
-		Category categoryToLoad = categoryRepo.findById(assignedId).get();
+		Long assignedId = testTag01.getId();
+		Tag tagToLoad = tagRepo.findById(assignedId).get();
 
 		// Assert
-		assertThat(testCat01, is(categoryToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
+		assertThat(testTag01, is(tagToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
 		}
 
 	@Test
-	public void shouldLoadCategoryByName()
+	public void shouldLoadTagByName()
 		{
 		// Action
-		Category categoryToLoad = categoryRepo.findByName(testCatName01);
+		Tag tagToLoad = tagRepo.findByName(testTagName01);
 
 		// Assert
-		assertThat(testCat01, is(categoryToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
+		assertThat(testTag01, is(tagToLoad)); // This works because "equals" is based on only id and name. (if posts were included this would never be true because the memory location of the posts field would be different for both objects.)
 		}
 
 	@Test
-	public void shouldFailToLoadCategoryByWrongName()
+	public void shouldFailToLoadTagByWrongName()
 		{
 		// Action
-		Category categoryToLoad = categoryRepo.findByName("wrong name");
+		Tag tagToLoad = tagRepo.findByName("wrong name");
 
 		// Assert
-		assertThat(categoryToLoad, is(nullValue()));
+		assertThat(tagToLoad, is(nullValue()));
 		}
 
 	@Test
-	public void shouldFailToSaveCategoryWithSameNameAsExistingCategory()
+	public void shouldFailToSaveTagWithSameNameAsExistingTag()
 		{
 		// Arrange
-		String duplicateTestCatName01 = new String(testCatName01);
-		Category duplicateTestCat01 = new Category(duplicateTestCatName01);
+		String duplicateTestTagName01 = new String(testTagName01);
+		Tag duplicateTestTag01 = new Tag(duplicateTestTagName01);
 
 		// Action
-		long numberOfCatsBeforeSave = categoryRepo.count();
+		long numberOfTagsBeforeSave = tagRepo.count();
 		try
 			{
-			categoryRepo.save(duplicateTestCat01);
+			tagRepo.save(duplicateTestTag01);
 			entityManager.flush();
 			entityManager.clear();
 			}
@@ -107,9 +107,9 @@ public class CategoryCrudRepoTest {
 				System.out.println("-------------EXCEPTION MESSAGE------: " + ex.getMessage());
 				}
 			}
-		long numberOfCatsAfterSave = categoryRepo.count();
+		long numberOfTagsAfterSave = tagRepo.count();
 
 		// Assert
-		assertEquals(numberOfCatsBeforeSave, numberOfCatsAfterSave);
+		assertEquals(numberOfTagsBeforeSave, numberOfTagsAfterSave);
 		}
 }
