@@ -3,17 +3,24 @@ package wcci.BlogPlatform.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.NaturalId;
 
 @Entity
 public class Category {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "category_id")
 	private Long id;
+
+	@Column(name = "category_name")
 	private String name;
 
 	@OneToMany(mappedBy = "category")
@@ -79,5 +86,4 @@ public class Category {
 			return false;
 		return true;
 		}
-
 }

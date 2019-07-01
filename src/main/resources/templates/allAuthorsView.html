@@ -5,6 +5,12 @@
 		<link
 			rel="stylesheet"
 			type="text/css"
+			href="/css/common/entityContent.css"
+		/>
+		<link rel="stylesheet" type="text/css" href="/css/common/newEntity.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
 			href="/css/specific/allAuthorsView.css"
 		/>
 	</head>
@@ -14,11 +20,38 @@
 			<header th:replace="fragments/header.html :: header"></header>
 
 			<main class="main">
-				<section>
-					<h1>allAuthorsView.html</h1>
-					<h2>
-						(To be completed).
-					</h2>
+				<header class="entity__header">
+					<h2 class="entity__header__label">Authors</h2>
+				</header>
+
+				<section class="new-entity-section">
+					<h3 class="new-entity-section__title">Add New Author</h3>
+					<form class="new-entity-form" action="/authors/add" method="POST">
+						<div class="form-element">
+							<label class="element__label">Name:</label>
+							<input
+								class="element__text-field"
+								type="text"
+								name="name"
+								value=""
+							/>
+						</div>
+						<button class="form-button" type="submit">
+							Submit New Author
+						</button>
+					</form>
+				</section>
+
+				<section class="entity__content">
+					<ul class="card-gallery">
+						<li class="card" th:each="author: ${allAuthorsModel}">
+							<a class="card__anchor" th:href="|/authors/${author.id}|">
+								<h3 class="card__anchor-label" th:text="${author.name}">
+									Name
+								</h3>
+							</a>
+						</li>
+					</ul>
 				</section>
 			</main>
 

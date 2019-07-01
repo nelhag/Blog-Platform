@@ -5,6 +5,12 @@
 		<link
 			rel="stylesheet"
 			type="text/css"
+			href="/css/common/entityContent.css"
+		/>
+		<link rel="stylesheet" type="text/css" href="/css/common/newEntity.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
 			href="/css/specific/singlePostView.css"
 		/>
 	</head>
@@ -14,11 +20,101 @@
 			<header th:replace="fragments/header.html :: header"></header>
 
 			<main class="main">
-				<section>
-					<h1>singlePostView.html</h1>
-					<h2>
-						(To be completed).
+				<header class="entity__header">
+					<span class="cat-label">
+						<h2 class="entity__header__type">Category</h2>
+						<h2
+							class="entity__header__label"
+							th:text='|"${singlePostModel.category.name}"|'
+						></h2>
+					</span>
+					<h2 class="entity__header__name" th:text="${singlePostModel.title}">
+						Post Title
 					</h2>
+				</header>
+
+				<section class="panel author-panel">
+					<h3 class="panel__heading">Authors</h3>
+					<ul class="panel__list">
+						<li th:each="author: ${authorsModel}">
+							<a
+								class="panel__list-item"
+								th:href="|/authors/${author.id}|"
+								th:text="${author.name}"
+							>
+								Author Name
+							</a>
+						</li>
+					</ul>
+				</section>
+
+				<section class="panel body-panel">
+					<p th:text="${singlePostModel.body}">Post Body</p>
+				</section>
+
+				<section class="panel tag-panel">
+					<h3 class="panel__heading">Tags</h3>
+					<ul class="panel__list">
+						<li th:each="tag: ${tagsModel}">
+							<a
+								class="panel__list-item"
+								th:href="|/tags/${tag.id}|"
+								th:text="${tag.name}"
+							>
+								Tag Name
+							</a>
+						</li>
+					</ul>
+				</section>
+
+				<section class="panel">
+					<h3 class="panel__heading">Add Author</h3>
+					<form
+						class="new-entity-form"
+						th:action="|/posts/${singlePostModel.id}/add-author|"
+						method="POST"
+					>
+						<div class="form-element">
+							<label class="element__label">Author:</label>
+							<select class="form-control" name="author">
+								<option disabled>--</option>
+								<option
+									th:each="author : ${allAuthorsModel}"
+									th:value="${author.name}"
+									th:text="${author.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<button class="form-button" type="submit">
+							Add Author
+						</button>
+					</form>
+
+					<h3 class="panel__heading">Add Tagz</h3>
+					<form
+						class="new-entity-form"
+						th:action="|/posts/${singlePostModel.id}/add-tag|"
+						method="POST"
+					>
+						<div class="form-element">
+							<label class="element__label">Tag:</label>
+							<select class="form-control" name="tag">
+								<option disabled>--</option>
+								<option
+									th:each="tag : ${allTagsModel}"
+									th:value="${tag.name}"
+									th:text="${tag.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<button class="form-button" type="submit">
+							Add Tag
+						</button>
+					</form>
 				</section>
 			</main>
 

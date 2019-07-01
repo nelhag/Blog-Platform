@@ -5,6 +5,11 @@
 		<link
 			rel="stylesheet"
 			type="text/css"
+			href="/css/common/entityContent.css"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
 			href="/css/specific/singleAuthorView.css"
 		/>
 	</head>
@@ -14,11 +19,23 @@
 			<header th:replace="fragments/header.html :: header"></header>
 
 			<main class="main">
-				<section>
-					<h1>singleAuthorsView.html</h1>
-					<h2>
-						(To be completed).
+				<header class="entity__header">
+					<h2 class="entity__header__label">Posts With Author:</h2>
+					<h2 class="entity__header__name" th:text="${singleAuthorModel.name}">
+						Author Name
 					</h2>
+				</header>
+
+				<section class="entity__content">
+					<ul class="card-gallery">
+						<li class="card" th:each="post: ${postsModel}">
+							<a class="card__anchor" th:href="|/posts/${post.id}|">
+								<h3 class="card__anchor-label" th:text="${post.title}">
+									Post Name
+								</h3>
+							</a>
+						</li>
+					</ul>
 				</section>
 			</main>
 

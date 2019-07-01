@@ -3,9 +3,14 @@ package wcci.BlogPlatform.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -13,10 +18,13 @@ public class Tag {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "tag_id")
 	private Long id;
+
+	@Column(name = "tag_name")
 	private String name;
-	
-	@ManyToMany(mappedBy = "tags")
+
+	@ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
 	private Collection<Post> posts = new ArrayList<Post>();
 
 	protected Tag()
