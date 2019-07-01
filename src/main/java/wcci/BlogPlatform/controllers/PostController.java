@@ -107,21 +107,8 @@ public class PostController {
 			return "redirect:/posts/" + post.getId();
 			}
 		return "redirect:/posts";
-		}
+	}
 
-//	@PostMapping("{id}/add-author")
-//	public String addAuthor(@PathVariable("id") Long id, String author)
-//		{
-//		Author selectedAuthor = authorRepo.findByName(author);
-//		Post post = postRepo.findById(id).get();
-//		if (selectedAuthor != null && post != null)
-//			{
-//			selectedAuthor.addPost(post);
-//			authorRepo.save(selectedAuthor);
-//			return "redirect:/posts/" + post.getId();
-//			}
-//		return "redirect:/posts";
-//		}
 
 	@PostMapping("add")
 	public String addPost(String title, String body, String category, String author, String tag)
@@ -147,36 +134,5 @@ public class PostController {
 			}
 		return "redirect:/posts/" + postToAdd.getId();
 		}
-
-//	@PostMapping("add")
-//	public String addPost(String title, String body, String category, @RequestParam("tagsChecked") Collection<String> tagNames, @RequestParam("authorsChecked") Collection<String> authorNames)
-//		{
-//		Category selectedCategory = categoryRepo.findByName(category);
-//		if (title == null || body == null || selectedCategory == null || authorNames == null)
-//			{
-//			return "redirect:/posts";
-//			}
-//		Post postToAdd = new Post(title, body, selectedCategory);
-//		postRepo.save(postToAdd);
-//
-//		for (String name : authorNames)
-//			{
-//			Author author = authorRepo.findByName(name);
-//			author.addPost(postToAdd);
-//			authorRepo.save(author);
-//			}
-//		if (tagNames != null)
-//			{
-//			Long postId = postToAdd.getId();
-//			Post postToAddUpdated = postRepo.findById(postId).get();
-//			for (String name : tagNames)
-//				{
-//				Tag tag = tagRepo.findByName(name);
-//				postToAddUpdated.addTag(tag);
-//				}
-//			postRepo.save(postToAddUpdated);
-//			}
-//		return "redirect:/posts";
-//		}
 
 }
