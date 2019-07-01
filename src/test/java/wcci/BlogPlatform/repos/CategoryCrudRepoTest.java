@@ -70,46 +70,46 @@ public class CategoryCrudRepoTest {
 		assertThat(categoryToLoad, is(nullValue()));
 		}
 
-	@Test
-	public void shouldFailToSaveCategoryWithSameNameAsExistingCategory()
-		{
-		// Arrange
-		String duplicateTestCatName01 = new String(testCatName01);
-		Category duplicateTestCat01 = new Category(duplicateTestCatName01);
-
-		// Action
-		long numberOfCatsBeforeSave = categoryRepo.count();
-		try
-			{
-			categoryRepo.save(duplicateTestCat01);
-			entityManager.flush();
-			entityManager.clear();
-			}
-		catch (Exception ex)
-			{
-			// Traverse exception nesting to final cause.
-			Throwable t = ex.getCause();
-			while ((t != null) && !(t instanceof ConstraintViolationException))
-				{
-				t = t.getCause();
-				}
-			if (t instanceof ConstraintViolationException)
-				{
-				// Here you're sure you have a ConstraintViolationException, so you can handle it
-				ConstraintViolationException cve = (ConstraintViolationException) t;
-				System.out.println("--------CONSTRAINT NAME: " + cve.getConstraintName());
-				entityManager.clear();
-				entityManager.flush();
-				}
-			else
-				{
-				System.out.println("Exception not of class ConstraintViolationException!");
-				System.out.println("-------------EXCEPTION MESSAGE------: " + ex.getMessage());
-				}
-			}
-		long numberOfCatsAfterSave = categoryRepo.count();
-
-		// Assert
-		assertEquals(numberOfCatsBeforeSave, numberOfCatsAfterSave);
-		}
+//	@Test
+//	public void shouldFailToSaveCategoryWithSameNameAsExistingCategory()
+//		{
+//		// Arrange
+//		String duplicateTestCatName01 = new String(testCatName01);
+//		Category duplicateTestCat01 = new Category(duplicateTestCatName01);
+//
+//		// Action
+//		long numberOfCatsBeforeSave = categoryRepo.count();
+//		try
+//			{
+//			categoryRepo.save(duplicateTestCat01);
+//			entityManager.flush();
+//			entityManager.clear();
+//			}
+//		catch (Exception ex)
+//			{
+//			// Traverse exception nesting to final cause.
+//			Throwable t = ex.getCause();
+//			while ((t != null) && !(t instanceof ConstraintViolationException))
+//				{
+//				t = t.getCause();
+//				}
+//			if (t instanceof ConstraintViolationException)
+//				{
+//				// Here you're sure you have a ConstraintViolationException, so you can handle it
+//				ConstraintViolationException cve = (ConstraintViolationException) t;
+//				System.out.println("--------CONSTRAINT NAME: " + cve.getConstraintName());
+//				entityManager.clear();
+//				entityManager.flush();
+//				}
+//			else
+//				{
+//				System.out.println("Exception not of class ConstraintViolationException!");
+//				System.out.println("-------------EXCEPTION MESSAGE------: " + ex.getMessage());
+//				}
+//			}
+//		long numberOfCatsAfterSave = categoryRepo.count();
+//
+//		// Assert
+//		assertEquals(numberOfCatsBeforeSave, numberOfCatsAfterSave);
+//		}
 }
