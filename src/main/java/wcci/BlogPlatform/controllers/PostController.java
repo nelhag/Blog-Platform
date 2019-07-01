@@ -1,15 +1,14 @@
 package wcci.BlogPlatform.controllers;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import wcci.BlogPlatform.models.Author;
 import wcci.BlogPlatform.models.Category;
@@ -53,18 +52,34 @@ public class PostController {
 		model.addAttribute("singlePostModel", post);
 		model.addAttribute("authorsModel", post.getAuthors());
 		model.addAttribute("tagsModel", post.getTags());
-		model.addAttribute("allAuthorsModel", authorRepo.findAll());
-		model.addAttribute("allTagsModel", tagRepo.findAll());
+
+		List<Author> allAuthors = new ArrayList<Author>();
+		authorRepo.findAll().iterator().forEachRemaining(allAuthors::add);
+		allAuthors.removeAll(post.getAuthors());
+		model.addAttribute("allAuthorsModel", allAuthors);
+
+		List<Tag> allTags = new ArrayList<Tag>();
+		tagRepo.findAll().iterator().forEachRemaining(allTags::add);
+		allTags.removeAll(post.getTags());
+		model.addAttribute("allTagsModel", allTags);
 		return "singlePostView";
 		}
 
 	@PostMapping("{id}/add-tag")
 	public String addTag(@PathVariable("id") Long id, String tag)
 		{
+		if (tag == null)
+			{
+			return "redirect:/posts/" + id;
+			}
 		Tag selectedTag = tagRepo.findByName(tag);
 		Post post = postRepo.findById(id).get();
 		if (selectedTag != null && post != null)
 			{
+			if (post.getTags().contains(selectedTag))
+				{
+				return "redirect:/posts/" + post.getId();
+				}
 			post.addTag(selectedTag);
 			postRepo.save(post);
 			return "redirect:/posts/" + post.getId();
@@ -75,16 +90,38 @@ public class PostController {
 	@PostMapping("{id}/add-author")
 	public String addAuthor(@PathVariable("id") Long id, String author)
 		{
+		if (author == null)
+			{
+			return "redirect:/posts/" + id;
+			}
 		Author selectedAuthor = authorRepo.findByName(author);
 		Post post = postRepo.findById(id).get();
 		if (selectedAuthor != null && post != null)
 			{
+			if (post.getAuthors().contains(selectedAuthor))
+				{
+				return "redirect:/posts/" + post.getId();
+				}
 			selectedAuthor.addPost(post);
 			authorRepo.save(selectedAuthor);
 			return "redirect:/posts/" + post.getId();
 			}
 		return "redirect:/posts";
 		}
+
+//	@PostMapping("{id}/add-author")
+//	public String addAuthor(@PathVariable("id") Long id, String author)
+//		{
+//		Author selectedAuthor = authorRepo.findByName(author);
+//		Post post = postRepo.findById(id).get();
+//		if (selectedAuthor != null && post != null)
+//			{
+//			selectedAuthor.addPost(post);
+//			authorRepo.save(selectedAuthor);
+//			return "redirect:/posts/" + post.getId();
+//			}
+//		return "redirect:/posts";
+//		}
 
 	@PostMapping("add")
 	public String addPost(String title, String body, String category, String author, String tag)

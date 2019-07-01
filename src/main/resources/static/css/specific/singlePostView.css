@@ -65,6 +65,10 @@
 	flex-wrap: wrap;
 }
 
+.panel__list li {
+	margin: 1rem;
+}
+
 .panel__list-item {
 	font-size: 1.3rem;
 	font-weight: bold;
