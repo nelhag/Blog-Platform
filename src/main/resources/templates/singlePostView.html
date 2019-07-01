@@ -7,6 +7,7 @@
 			type="text/css"
 			href="/css/common/entityContent.css"
 		/>
+		<link rel="stylesheet" type="text/css" href="/css/common/newEntity.css" />
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -64,6 +65,56 @@
 							</a>
 						</li>
 					</ul>
+				</section>
+
+				<section class="panel">
+					<h3 class="panel__heading">Add Author</h3>
+					<form
+						class="new-entity-form"
+						th:action="|/posts/${singlePostModel.id}/add-author|"
+						method="POST"
+					>
+						<div class="form-element">
+							<label class="element__label">Author:</label>
+							<select class="form-control" name="author">
+								<option disabled>--</option>
+								<option
+									th:each="author : ${allAuthorsModel}"
+									th:value="${author.name}"
+									th:text="${author.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<button class="form-button" type="submit">
+							Add Author
+						</button>
+					</form>
+
+					<h3 class="panel__heading">Add Tagz</h3>
+					<form
+						class="new-entity-form"
+						th:action="|/posts/${singlePostModel.id}/add-tag|"
+						method="POST"
+					>
+						<div class="form-element">
+							<label class="element__label">Tag:</label>
+							<select class="form-control" name="tag">
+								<option disabled>--</option>
+								<option
+									th:each="tag : ${allTagsModel}"
+									th:value="${tag.name}"
+									th:text="${tag.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<button class="form-button" type="submit">
+							Add Tag
+						</button>
+					</form>
 				</section>
 			</main>
 

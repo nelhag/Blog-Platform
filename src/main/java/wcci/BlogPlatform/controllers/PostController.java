@@ -53,7 +53,37 @@ public class PostController {
 		model.addAttribute("singlePostModel", post);
 		model.addAttribute("authorsModel", post.getAuthors());
 		model.addAttribute("tagsModel", post.getTags());
+		model.addAttribute("allAuthorsModel", authorRepo.findAll());
+		model.addAttribute("allTagsModel", tagRepo.findAll());
 		return "singlePostView";
+		}
+
+	@PostMapping("{id}/add-tag")
+	public String addTag(@PathVariable("id") Long id, String tag)
+		{
+		Tag selectedTag = tagRepo.findByName(tag);
+		Post post = postRepo.findById(id).get();
+		if (selectedTag != null && post != null)
+			{
+			post.addTag(selectedTag);
+			postRepo.save(post);
+			return "redirect:/posts/" + post.getId();
+			}
+		return "redirect:/posts";
+		}
+
+	@PostMapping("{id}/add-author")
+	public String addAuthor(@PathVariable("id") Long id, String author)
+		{
+		Author selectedAuthor = authorRepo.findByName(author);
+		Post post = postRepo.findById(id).get();
+		if (selectedAuthor != null && post != null)
+			{
+			selectedAuthor.addPost(post);
+			authorRepo.save(selectedAuthor);
+			return "redirect:/posts/" + post.getId();
+			}
+		return "redirect:/posts";
 		}
 
 	@PostMapping("add")
