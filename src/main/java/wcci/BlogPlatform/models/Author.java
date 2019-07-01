@@ -1,11 +1,11 @@
 package wcci.BlogPlatform.models;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,10 +20,10 @@ public class Author {
 	@Column(name = "author_id")
 	private Long id;
 
-	@Column(name = "author_name", unique = true, nullable = false)
+	@Column(name = "author_name")
 	private String name;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "author_posts", joinColumns = { @JoinColumn(name = "author_id") }, inverseJoinColumns = { @JoinColumn(name = "post_id") })
 	private Set<Post> posts = new HashSet<Post>();
 

@@ -1,32 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <div th:insert="fragments/head.html :: head"></div>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/css/specific/allPostsView.css"
-    />
-  </head>
+	<head>
+		<div th:insert="fragments/head.html :: head"></div>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/css/common/entityContent.css"
+		/>
+		<link rel="stylesheet" type="text/css" href="/css/common/newEntity.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/css/specific/allPostsView.css"
+		/>
+	</head>
 
-  <body>
-    <div class="wrapper">
-      <header th:replace="fragments/header.html :: header"></header>
+	<body>
+		<div class="wrapper">
+			<header th:replace="fragments/header.html :: header"></header>
 
-      <main class="main">
-        <section>
-          <h1>Posts</h1>
-          <ul>
-            <li th:each="post: ${allPostsModel}">
-              <a th:href="|/posts/${post.id}|">
-                <h2 th:text="${post.title}">Title</h2>
-              </a>
-            </li>
-          </ul>
-        </section>
-      </main>
+			<main class="main">
+				<header class="entity__header">
+					<h2 class="entity__header__label">Posts</h2>
+				</header>
 
-      <footer th:replace="fragments/footer.html :: footer"></footer>
-    </div>
-  </body>
+				<section class="new-entity-section">
+					<h3 class="new-entity-section__title">Add New Post</h3>
+					<form class="new-entity-form" action="/posts/add" method="POST">
+						<div class="form-element">
+							<label class="element__label">Title:</label>
+							<input
+								class="element__text-field"
+								type="text"
+								name="title"
+								value=""
+							/>
+						</div>
+
+						<div class="form-element">
+							<label class="element__label">Body:</label>
+							<input
+								class="element__text-field"
+								type="text"
+								name="body"
+								value=""
+							/>
+						</div>
+
+						<div class="form-element">
+							<label class="element__label">Category:</label>
+							<select class="form-control" name="category">
+								<option disabled>--</option>
+								<option
+									th:each="category : ${allCategoriesModel}"
+									th:value="${category.name}"
+									th:text="${category.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<div class="form-element">
+							<label class="element__label">Author:</label>
+							<select class="form-control" name="author">
+								<option disabled>--</option>
+								<option
+									th:each="author : ${allAuthorsModel}"
+									th:value="${author.name}"
+									th:text="${author.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<div class="form-element">
+							<label class="element__label">Tag:</label>
+							<select class="form-control" name="tag">
+								<option disabled>--</option>
+								<option
+									th:each="tag : ${allTagsModel}"
+									th:value="${tag.name}"
+									th:text="${tag.name}"
+								>
+								</option>
+							</select>
+						</div>
+
+						<button class="form-button" type="submit">
+							Create New Post
+						</button>
+					</form>
+				</section>
+
+				<section class="entity__content">
+					<ul class="card-gallery">
+						<li class="card" th:each="post: ${allPostsModel}">
+							<a class="card__anchor" th:href="|/posts/${post.id}|">
+								<h3 class="card__anchor-label" th:text="${post.title}">
+									Title
+								</h3>
+							</a>
+						</li>
+					</ul>
+				</section>
+			</main>
+
+			<footer th:replace="fragments/footer.html :: footer"></footer>
+		</div>
+	</body>
 </html>
+
+<!-- <select th:field="*{category_id}">
+		<option value=""> -- </option>
+		<option
+			th:each="category : ${categoriesModel}"
+			th:value="${category.id}"
+			th:utext="${category.name}"
+		></option>
+	</select> -->

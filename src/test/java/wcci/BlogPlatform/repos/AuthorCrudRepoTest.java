@@ -70,46 +70,46 @@ public class AuthorCrudRepoTest {
 		assertThat(authorToLoad, is(nullValue()));
 		}
 
-	@Test
-	public void shouldFailToSaveAuthorWithSameNameAsExistingAuthor()
-		{
-		// Arrange
-		String duplicateTestAuthorName01 = new String(testAuthorName01);
-		Author duplicateTestAuthor01 = new Author(duplicateTestAuthorName01);
-
-		// Action
-		long numberOfAuthorsBeforeSave = authorRepo.count();
-		try
-			{
-			authorRepo.save(duplicateTestAuthor01);
-			entityManager.flush();
-			entityManager.clear();
-			}
-		catch (Exception ex)
-			{
-			// Traverse exception nesting to final cause.
-			Throwable t = ex.getCause();
-			while ((t != null) && !(t instanceof ConstraintViolationException))
-				{
-				t = t.getCause();
-				}
-			if (t instanceof ConstraintViolationException)
-				{
-				// Here you're sure you have a ConstraintViolationException, so you can handle it
-				ConstraintViolationException cve = (ConstraintViolationException) t;
-				System.out.println("--------CONSTRAINT NAME: " + cve.getConstraintName());
-				entityManager.clear();
-				entityManager.flush();
-				}
-			else
-				{
-				System.out.println("Exception not of class ConstraintViolationException!");
-				System.out.println("-------------EXCEPTION MESSAGE------: " + ex.getMessage());
-				}
-			}
-		long numberOfAuthorsAfterSave = authorRepo.count();
-
-		// Assert
-		assertEquals(numberOfAuthorsBeforeSave, numberOfAuthorsAfterSave);
-		}
+//	@Test
+//	public void shouldFailToSaveAuthorWithSameNameAsExistingAuthor()
+//		{
+//		// Arrange
+//		String duplicateTestAuthorName01 = new String(testAuthorName01);
+//		Author duplicateTestAuthor01 = new Author(duplicateTestAuthorName01);
+//
+//		// Action
+//		long numberOfAuthorsBeforeSave = authorRepo.count();
+//		try
+//			{
+//			authorRepo.save(duplicateTestAuthor01);
+//			entityManager.flush();
+//			entityManager.clear();
+//			}
+//		catch (Exception ex)
+//			{
+//			// Traverse exception nesting to final cause.
+//			Throwable t = ex.getCause();
+//			while ((t != null) && !(t instanceof ConstraintViolationException))
+//				{
+//				t = t.getCause();
+//				}
+//			if (t instanceof ConstraintViolationException)
+//				{
+//				// Here you're sure you have a ConstraintViolationException, so you can handle it
+//				ConstraintViolationException cve = (ConstraintViolationException) t;
+//				System.out.println("--------CONSTRAINT NAME: " + cve.getConstraintName());
+//				entityManager.clear();
+//				entityManager.flush();
+//				}
+//			else
+//				{
+//				System.out.println("Exception not of class ConstraintViolationException!");
+//				System.out.println("-------------EXCEPTION MESSAGE------: " + ex.getMessage());
+//				}
+//			}
+//		long numberOfAuthorsAfterSave = authorRepo.count();
+//
+//		// Assert
+//		assertEquals(numberOfAuthorsBeforeSave, numberOfAuthorsAfterSave);
+//		}
 }
