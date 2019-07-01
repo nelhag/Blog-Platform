@@ -38,4 +38,6 @@ public class PostController {
 	public String addPost() {
 		return "redirect:/posts";
 	}
+
+	
 }
