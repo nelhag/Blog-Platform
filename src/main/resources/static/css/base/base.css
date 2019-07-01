@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 :root {
 	--white: #ffffff;
@@ -9,11 +9,15 @@
 	--accent-muted: #e9dbcb;
 	--accent-dark: #896e65;
 	--dark: #495159;
+	--light: #ffeeee;
+
+	--base-font-family: "Roboto", sans-serif, "Times New Roman";
+	--base-font-size: calc((12px + ((100vw - 320px) / 200)));
 }
 
 html {
-	font: 24px/1;
-	font-family: "Muli", sans-serif;
+	font-family: var(--base-font-family);
+	font-size: var(--base-font-size);
 }
 
 img {
@@ -41,4 +45,5 @@ img {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: flex-start;
 }
